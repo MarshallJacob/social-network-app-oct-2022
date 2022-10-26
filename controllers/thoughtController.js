@@ -1,7 +1,7 @@
-// pull in models for thought and user
+// pull in models from thought and user
 const { Thought, User } = require('../models');
 
-const thoughtController = {
+module.exports = {
     // retrieve all thoughts, one thought and the create new thoughts
     getAllThoughts(req, res) {
         Thought.find({})
@@ -77,5 +77,3 @@ const thoughtController = {
             .catch(err => res.json(err));
     }
 };
-
-module.exports = thoughtController;

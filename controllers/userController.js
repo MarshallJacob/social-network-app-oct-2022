@@ -4,7 +4,7 @@ module.exports = {
   // retrieves/creates a path to get info for all users  
   getUsers(req, res) {
     User.find()
-      .then((users) => res.json(users))
+      .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
   // retrieves the info for a single user
