@@ -24,13 +24,11 @@ const userSchema = new Schema(
       match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'Please fill a valid email address']
     },
     // TODO: Maybe need to change to just "type: Array"
-    thoughts: {
-        type: Schema.Types.ObjectId,
-        ref: 'thoughts'
+    thought: {
+        type: Array,
     },
     friends: {
-        type: Schema.Types.ObjectId,
-        ref: 'friends'
+        type: []
     },
   },
   {

@@ -7,16 +7,16 @@ module.exports = {
         Thought.find({})
         .select('-__v')
         .sort({ _id: -1 })
-        .then(dbThoughtData => res.json(dbThoughtData))
+        .then(thoughtData => res.json(thoughtData))
         .catch(err => {
             console.log(err);
             res.sendStatus(400);
         });
     },
-    getThoughtById({ params }, res) {
+    getSingleThought({ params }, res) {
         Thought.findOne({ _id: params.thoughtId })
         .select('-__v')
-        .then(dbThoughtData => res.json(dbThoughtData))
+        .then(thoughtData => res.json(thoughtData))
         .catch(err => {
             console.log(err);
             res.sendStatus(400);
@@ -24,17 +24,17 @@ module.exports = {
     },
     createThought({ body }, res) {
         Thought.create(body)
-            .then(dbThoughtData => {
+            .then(thoughtData => {
                 User.findOneAndUpdate(
                     { _id: body.userId },
-                    { $push: { thought: dbThoughtData._id }},
+                    { $push: { thought: thoughtData._id }},
                     { new: true })
-                    .then(dbUserData => {
-                        if (!dbUserData) {
+                    .then(user => {
+                        if (!user) {
                             res.status(404).json({ message: 'No user found with this id!' });
                             return;
                         }
-                        res.json(dbThoughtData)
+                        res.json(thoughtData)
                     })
                     .catch(err => res.json(err));
             })
@@ -43,28 +43,28 @@ module.exports = {
     // revise existing thoughts, delete thoughts, add rections and delete reactions
     updateThought({ params, body }, res) {
         Thought.findByIdAndUpdate({ _id: params.thoughtId }, body, {new: true })
-        .then(dbThoughtData => {
-            if (!dbThoughtData) {
+        .then(thoughtData => {
+            if (!thoughtData) {
                 res.status(404).json({ message: 'No thought found. Think harder!' });
                 return;
             }
-            res.json(dbThoughtData);
+            res.json(thoughtData);
         })
         .catch(err => res.json(err));
     },
     deleteThought({ params }, res) {
         Thought.findByIdAndDelete({ _id: params.thoughtId })
-        .then(dbThoughtData => res.json(dbThoughtData))
+        .then(thoughtData => res.json(thoughtData))
         .catch(err => res.json(err));
     },
     addReaction({ params, body }, res) {
         Thought.findByIdAndUpdate({ _id: params.thoughtId }, { $push: { reactions: body }}, { new: true })
-        .then(dbThoughtData => {
-            if (!dbThoughtData) {
+        .then(thoughtData => {
+            if (!thoughtData) {
                 res.status(404).json({ message: 'No thought found. Think harder!' });
                 return;
             }
-            res.json(dbThoughtData);
+            res.json(thoughtData);
         })
         .catch(err => res.json(err));
     },
@@ -73,7 +73,7 @@ module.exports = {
             { _id: params.thoughtId },
             { $pull: { reactions: { _id: params.reactionId }}},
             { new: true })
-            .then(dbThoughtData => res.json(dbThoughtData))
+            .then(thoughtData => res.json(thoughtData))
             .catch(err => res.json(err));
     }
 };

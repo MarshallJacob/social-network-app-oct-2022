@@ -12,6 +12,8 @@
 ## Description
 This application will allow the user to create a username tied to their email and track their friends and thoughts.
 
+Here's is a run through video of this api using the Insomnia application: https://drive.google.com/file/d/1PPIcZ4vDVhoyMLM2tfIvERWQEu0a7tgc/view
+
 ## Installation
 Make sure to run npm install and you will also need insomnia and mongodb compass.
 
